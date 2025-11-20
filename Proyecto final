@@ -2,87 +2,92 @@
 #include <stdio.h>
 
 int main() {
+
     int votos[100][3];
     int puntos[10];
-    int puntosOyente[100];
-    int oyentes = 0;
+    int puntosOy[100];
+
+    int oy = 0;
     int a, b, c;
     int i, j;
 
-    for (i = 0; i < 10; i++) {
+    for(i = 0; i < 10; i++){
         puntos[i] = 0;
     }
 
-    printf("Ingresa los votos (3 numeros por oyente). Para terminar escribe -1 como primer numero.\n\n");
+    printf("Ingresa los votos (3 numeros por oyente). Pon -1 para terminar.\n\n");
 
-    while (1) {
-        printf("Oyente %d -> ", oyentes);
+    while(1){
+
+        printf("Oyente %d -> ", oy);
         scanf("%d", &a);
 
-        if (a == -1) break;
+        if(a == -1){
+            break;
+        }
 
         scanf("%d %d", &b, &c);
 
-        votos[oyentes][0] = a;
-        votos[oyentes][1] = b;
-        votos[oyentes][2] = c;
+        votos[oy][0] = a;
+        votos[oy][1] = b;
+        votos[oy][2] = c;
 
-        printf("Guardado para Oyente %d: %d %d %d\n", oyentes, a, b, c);
+        printf("Guardado: %d %d %d\n", a, b, c);
 
-        oyentes++;
+        oy++;
     }
 
-    for (i = 0; i < oyentes; i++) {
-        puntos[votos[i][0]] += 3;
-        puntos[votos[i][1]] += 2;
-        puntos[votos[i][2]] += 1;
+    for(i = 0; i < oy; i++){
+        puntos[ votos[i][0] ] += 3;
+        puntos[ votos[i][1] ] += 2;
+        puntos[ votos[i][2] ] += 1;
     }
 
     printf("\nPuntos por cancion:\n");
-    for (i = 0; i < 10; i++) {
-        printf("Cancion %d: %d puntos\n", i, puntos[i]);
+    for(i = 0; i < 10; i++){
+        printf("%d: %d puntos\n", i, puntos[i]);
     }
 
     int primera = 0;
     int segunda = 0;
 
-    for (i = 0; i < 10; i++) {
-        if (puntos[i] > puntos[primera]) {
+    for(i = 0; i < 10; i++){
+        if(puntos[i] > puntos[primera]){
             segunda = primera;
             primera = i;
-        } else if (i != primera && puntos[i] > puntos[segunda]) {
+        } else if(i != primera && puntos[i] > puntos[segunda]){
             segunda = i;
         }
     }
 
-    printf("\n1a cancion mas votada: %d\n", primera);
-    printf("2a cancion mas votada: %d\n", segunda);
+    printf("\nPrimera mas votada: %d\n", primera);
+    printf("Segunda mas votada: %d\n", segunda);
 
     int ganador = 0;
-    int maxPuntos = -1;
+    int maxp = -1;
 
-    for (i = 0; i < oyentes; i++) {
-        puntosOyente[i] = 0;
+    for(i = 0; i < oy; i++){
+        puntosOy[i] = 0;
 
-        for (j = 0; j < 3; j++) {
-            if (votos[i][j] == primera) puntosOyente[i] += 30;
-            if (votos[i][j] == segunda) puntosOyente[i] += 20;
+        for(j = 0; j < 3; j++){
+            if(votos[i][j] == primera) puntosOy[i] += 30;
+            if(votos[i][j] == segunda) puntosOy[i] += 20;
         }
 
-        if ((votos[i][0] == primera || votos[i][1] == primera || votos[i][2] == primera) &&
-            (votos[i][0] == segunda || votos[i][1] == segunda || votos[i][2] == segunda)) {
-            puntosOyente[i] += 10;
+        if( (votos[i][0] == primera || votos[i][1] == primera || votos[i][2] == primera) &&
+            (votos[i][0] == segunda || votos[i][1] == segunda || votos[i][2] == segunda) ){
+            puntosOy[i] += 10;
         }
 
-        if (puntosOyente[i] > maxPuntos) {
-            maxPuntos = puntosOyente[i];
+        if(puntosOy[i] > maxp){
+            maxp = puntosOy[i];
             ganador = i;
         }
     }
 
-    printf("\nPuntos de cada oyente:\n");
-    for (i = 0; i < oyentes; i++) {
-        printf("Oyente %d: %d puntos\n", i, puntosOyente[i]);
+    printf("\nPuntos de los oyentes:\n");
+    for(i = 0; i < oy; i++){
+        printf("%d -> %d puntos\n", i, puntosOy[i]);
     }
 
     printf("\nGanador: oyente %d\n", ganador);
